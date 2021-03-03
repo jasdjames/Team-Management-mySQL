@@ -12,6 +12,8 @@
   "author": "JasDJames",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^8.0.0"
+    "dotenv": "^8.2.0",
+    "inquirer": "^8.0.0",
+    "mysql2": "^2.2.5"
   }
 }
