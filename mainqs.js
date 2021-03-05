@@ -6,8 +6,8 @@ const questionMain = [
         name: 'main',
         message: 'What what you like to do?',
         choices: [
-            'Add a department', 'Add a role', 'Add an employee', 'View a department', 'View a role', 'View an employee',
-            'Update employee role'
+            'Add a department', 'Add a role', 'Add an employee', 'View the departments', 'View the roles', 'View the employees',
+            'Update an employee role'
         ]
 
 

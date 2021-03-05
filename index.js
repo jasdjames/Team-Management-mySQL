@@ -20,14 +20,35 @@ async function init() {
         addDepartment()
        }
        else if(mainQ.main === 'Add a role'){
-        //    Run the function add a department - Create
+        
         addRole()
        }
        else if(mainQ.main === 'Add an employee'){
-        //    Run the function add a department - Create
+        
         addEmployee()
 
     }
+    else if(mainQ.main === 'View the departments'){
+        
+        viewDepartment()
+
+    }
+    else if(mainQ.main === 'View the roles'){
+        
+        viewRole()
+
+    }
+    else if(mainQ.main === 'View the employees'){
+        
+        viewEmployee()
+
+    }
+    // else if(mainQ.main === 'Update an employee role'){
+        
+    //     updateEmployee()
+
+    // }
+
     }
     catch (error) {
         console.log(error);
@@ -79,10 +100,42 @@ connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], 
 
 }
 
-// async function viewEmployee() {
-//     console.table()
-    
-// }
+function viewDepartment() {
+    const dptTableQuery = 'Select * FROM department '
+    connection.query(dptTableQuery, (err,res) => {
+        if (err) throw (err);
+        console.table(res);
+    })
+
+}
+
+function viewDepartment() {
+    const dptTableQuery = 'Select * FROM department '
+    connection.query(dptTableQuery, (err,res) => {
+        if (err) throw (err);
+        console.table(res);
+    })
+
+}
+
+function viewRole() {
+    const roleTableQuery = 'Select * FROM role '
+    connection.query(roleTableQuery, (err,res) => {
+        if (err) throw (err);
+        console.table(res);
+    })
+
+}
+
+function viewEmployee() {
+    const empTableQuery = 'Select * FROM employee '
+    connection.query(empTableQuery, (err,res) => {
+        if (err) throw (err);
+        console.table(res);
+    })
+
+}
+
 
 init();
 
