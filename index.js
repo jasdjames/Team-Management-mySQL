@@ -67,7 +67,7 @@ connection.query(departmentQuery, {name:nameDpt.name}, (err, res) => {
 })
 
 }
-
+// Department ID - in params  - Get Department array - pass to user to select - Function to get roles 
 async function addRole() {
     const nameRole = await inquirer.prompt(role);
 console.log(nameRole);
@@ -75,6 +75,8 @@ const roleQuery = 'INSERT INTO role SET ?';
 connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
     if (err) throw err;
  console.log(res);
+
+//  What is the name of the role and salary 
 })
 
 }
@@ -87,7 +89,7 @@ connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
 //     })
 // }
 
-
+// Need Role for employee
 async function addEmployee() {
     const employeeInfo = await inquirer.prompt(employee);
 console.log(employeeInfo);
@@ -97,6 +99,7 @@ connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], 
     if (err) throw (err);
  console.table(res);
 })
+
 
 }
 
@@ -123,6 +126,7 @@ function viewRole() {
     connection.query(roleTableQuery, (err,res) => {
         if (err) throw (err);
         console.table(res);
+        init();
     })
 
 }
@@ -136,6 +140,9 @@ function viewEmployee() {
 
 }
 
+// function updateRole(params) {
+    
+// }
 
 init();
 

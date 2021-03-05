@@ -2,9 +2,15 @@ INSERT INTO department (name)
 VALUES 
 ('Human Resources'),
 ('Engineering'),
-( 'Sales')
-;
+( 'Sales');
 
+INSERT INTO manager (first_name,last_name)
+VALUES
+('Bill','Gates'),
+('Martha','Stewart'),
+('Bob','Villa'),
+('Beyonce', 'Knowles'),
+('Wesley','Weston');
 
 INSERT INTO role (title,salary,department_id )
 values
