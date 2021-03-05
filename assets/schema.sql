@@ -8,7 +8,7 @@ first_name VARCHAR(30),
 last_name VARCHAR(30),
 role_id  INTEGER, 
 manager_id INTEGER,
-
+foreign key (role_id) REFERENCES role(id),
 primary key (id) 
 );
 CREATE TABLE department(
@@ -22,6 +22,7 @@ id INTEGER auto_increment NOT NULL,
 title VARCHAR(30),
 salary DECIMAL (10,2), 
 department_id INTEGER, 
+foreign key (department_id) references department(id),
 primary key (id)
 
 );

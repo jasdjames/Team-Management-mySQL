@@ -1,4 +1,4 @@
-const {mainQuestion, department,role} = require('./mainqs')
+const {mainQuestion, department,role, employee} = require('./mainqs')
 const inquirer = require('inquirer')
 const mysql = require('mysql2')
 require('dotenv').config();
@@ -57,29 +57,33 @@ connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
 })
 
 }
-
-async function getRole() {
-    const roleArr = []
-    const getRoleQuery= 'SELECT title FROM role;'
-    connection.query(getRoleQuery,title, (err, res) => {
-        roleArr.push(res)
-        if (err) throw err;
-     console.log(res);
-    })
-}
+//  TODO: Pause 
+// async function getRole() {
+//     const getRoleQuery= 'SELECT title FROM role;'
+//     connection.query(getRoleQuery,(err, res) => {
+//         if (err) throw err;
+//      console.log(res);
+//     })
+// }
 
 
 async function addEmployee() {
-    const nameRole = await inquirer.prompt(employee);
-console.log(nameRole);
-const roleQuery = 'INSERT INTO role SET ?';
-connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
-    if (err) throw err;
- console.log(res);
+    const employeeInfo = await inquirer.prompt(employee);
+console.log(employeeInfo);
+const employQuery = 'INSERT INTO employee (first_name,last_name) VALUES (?,?)';
+connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], (err, res) => {
+//    if ()
+    if (err) throw (err);
+ console.table(res);
 })
 
 }
 
+// async function viewEmployee() {
+//     console.table()
+    
+// }
+
 init();
 
-module.exports = getRole
+// module.exports = getRole

@@ -45,17 +45,13 @@ const employee = [
         name: 'last_name',
         message: 'What is the employee\'s last name?',
     },
-    {
-        type: 'input',
-        name: 'last_name',
-        message: 'What is the employee\'s last name?',
-    },
-
 {
         type: 'input',
         name: 'role',
         message: 'What is the employee\'s role?',
-        choices: getRole()
+        choices: [
+            'Manager', 'Intern', 'Engineer', 'HR', 'Sales'
+        ]
 
     },
 
@@ -69,8 +65,9 @@ const employee = [
 
 
 
-    }
+    },
 
-]
 
-module.exports = { mainQuestion: questionMain, department: department, role: role }
+];
+
+module.exports = { mainQuestion: questionMain, department: department, role: role, employee:employee }
