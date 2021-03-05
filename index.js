@@ -2,6 +2,8 @@ const {mainQuestion, department,role, employee} = require('./mainqs')
 const inquirer = require('inquirer')
 const mysql = require('mysql2')
 require('dotenv').config();
+const fs = require ('fs')
+
 
 
 const connection = mysql.createConnection({
@@ -65,32 +67,147 @@ connection.query(departmentQuery, {name:nameDpt.name}, (err, res) => {
     if (err) throw err;
  console.log(res);
 })
+// const deptArr = []
+// const departmentIdQuery = 'SELECT * FROM department'
+// connection.query(departmentIdQuery,(err,res) => {
+// if (err) throw (err);
+// deptArr.push(res)
+// console.log ('This is your department',deptArr)
+// // Could also write to fs .sql file?
+
+// })
 
 }
-// Department ID - in params  - Get Department array - pass to user to select - Function to get roles 
-async function addRole() {
-    const nameRole = await inquirer.prompt(role);
-console.log(nameRole);
-const roleQuery = 'INSERT INTO role SET ?';
-connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
-    if (err) throw err;
- console.log(res);
 
-//  What is the name of the role and salary 
+// Department ID - in params  - Get Department array - pass to user to select - Function to get roles 
+function addRole() {
+const selectDept = 'SELECT * FROM department'
+connection.query(selectDept, (err,res) =>{
+if (err) throw (err)
+console.log(res);
+var deptNames = []
+for (let i = 0; i < res.length; i++) {
+    deptNames.push(res[i].name)
+    
+}
+console.log(deptNames);
+inquirer.prompt([
+    {
+        type: 'input',
+        name: 'title',
+        message: 'What is the name of this role?',
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'What is the salary of this role?',
+    },
+    {
+        type: 'list',
+        name: 'departmentName',
+        message: 'What department will this role be listed under?',
+        choices: deptNames
+    }
+]).then( function (answer) {
+    console.log('This is the answer', answer);  
+
+    var deptIdToSave;
+    for (let i = 0; i < res.length; i++) {
+        if (answer.departmentName === res[i].name){
+            deptIdToSave = res[i].id
+        }
+        
+    }
+
+console.log(deptIdToSave);
+    const roleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+connection.query(roleQuery, [answer.title, answer.salary, deptIdToSave], (err, res) => {
+    if (err) throw err;
+console.log(res);
+var roleNames = []
+for (let i = 0; i < res.length; i++) {
+    roleNames.push(res[i].title)
+   
+    
+}
+console.log(roleNames);
+inquirer.prompt([
+    {
+        type: 'input',
+        name: 'first_name',
+        message: 'What is the employee\'s first name?',
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: 'What is the employee\'s last name?',
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: 'What is the employee\'s role?',
+        choices: ['Lover', 'Fighter', 'Manager', 'HR Rep']
+
+    },
+
+    {
+        type: 'list',
+        name: 'manager',
+        message: 'Who is the employee\'s manager?',
+        choices: ['Jas James', 'Robyn Douglas', 'Kristin Bird', 'Retta Williams'
+
+        ]
+
+
+
+    },
+
+
+];)
+
+}) 
+
+
 })
 
+
+
+})
+//     const roleQuery = 'INSERT INTO role SET ?';
+// connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
+//     if (err) throw err;
+// console.log(res);
+// })
+
+//     const nameRole = await inquirer.prompt(role);
+// console.log(nameRole);
+// const roleQuery = 'INSERT INTO role SET ?';
+// connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
+//     if (err) throw err;
+//  console.log(res);
+
+// //  What is the name of the role and salary 
+// })
+
 }
-//  TODO: Pause 
-// async function getRole() {
-//     const getRoleQuery= 'SELECT title FROM role;'
+
+// function getRole() {
+//     const getRoleQuery = 'SELECT title FROM role '
 //     connection.query(getRoleQuery,(err, res) => {
-//         if (err) throw err;
+//         if (err) throw (err);
 //      console.log(res);
 //     })
 // }
 
 // Need Role for employee
 async function addEmployee() {
+    const viewEmQuery = 'SELECT * FROM role';
+    connection.query(viewEmQuery, (err,res) => {
+
+      console.log(res);   
+    })
+
+
     const employeeInfo = await inquirer.prompt(employee);
 console.log(employeeInfo);
 const employQuery = 'INSERT INTO employee (first_name,last_name) VALUES (?,?)';
@@ -103,14 +220,14 @@ connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], 
 
 }
 
-function viewDepartment() {
-    const dptTableQuery = 'Select * FROM department '
-    connection.query(dptTableQuery, (err,res) => {
-        if (err) throw (err);
-        console.table(res);
-    })
+// function viewDepartment() {
+//     const dptTableQuery = 'Select * FROM department '
+//     connection.query(dptTableQuery, (err,res) => {
+//         if (err) throw (err);
+//         console.table(res);
+//     })
 
-}
+// }
 
 function viewDepartment() {
     const dptTableQuery = 'Select * FROM department '
@@ -140,10 +257,10 @@ function viewEmployee() {
 
 }
 
-// function updateRole(params) {
+// function updateRole() {
     
 // }
 
 init();
 
-// module.exports = getRole
+// module.exports = getRole;

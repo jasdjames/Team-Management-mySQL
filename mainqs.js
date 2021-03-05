@@ -1,4 +1,5 @@
-const getRole = require('./index')
+const getRole = require('./index');
+const deptArr = require('./index');
 
 const questionMain = [
     {
@@ -24,15 +25,22 @@ const department = [
         name: 'name',
         message: 'What department?',
     }
-]
+];
 
-const role = [
-    {
-        type: 'input',
-        name: 'title',
-        message: 'What is the role?',
-    }
-]
+// const role = [
+//     {
+//         type: 'input',
+//         name: 'title',
+//         message: 'What is the name of this role?',
+//     },
+
+//     {
+//         type: 'list',
+//         name: 'title',
+//         message: 'What department will this role be listed under?',
+//         choices: ['Sales', 'Engine']
+//     }
+// ];
 
 const employee = [
     {
@@ -45,18 +53,16 @@ const employee = [
         name: 'last_name',
         message: 'What is the employee\'s last name?',
     },
-{
-        type: 'input',
+    {
+        type: 'list',
         name: 'role',
         message: 'What is the employee\'s role?',
-        choices: [
-            'Manager', 'Intern', 'Engineer', 'HR', 'Sales'
-        ]
+        choices: ['Lover', 'Fighter', 'Manager', 'HR Rep']
 
     },
 
-{
-        type: 'input',
+    {
+        type: 'list',
         name: 'manager',
         message: 'Who is the employee\'s manager?',
         choices: ['Jas James', 'Robyn Douglas', 'Kristin Bird', 'Retta Williams'
@@ -70,4 +76,4 @@ const employee = [
 
 ];
 
-module.exports = { mainQuestion: questionMain, department: department, role: role, employee:employee }
+module.exports = { mainQuestion: questionMain, department: department, employee: employee }
