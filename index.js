@@ -49,6 +49,9 @@ async function init() {
 
             updateRole()
 
+        }else if (mainQ.main === 'Exit') {
+            console.log ('Thank you! Goodbye!')
+            connection.end()
         }
 
     }
@@ -66,6 +69,7 @@ async function addDepartment() {
     connection.query(departmentQuery, { name: nameDpt.name }, (err, res) => {
         if (err) throw err;
         console.log(res);
+        init();
     })
     // const deptArr = []
     // const departmentIdQuery = 'SELECT * FROM department'
@@ -80,7 +84,7 @@ async function addDepartment() {
 }
 
 // Department ID - in params  - Get Department array - pass to user to select - Function to get roles 
-function addRole() {
+ function addRole() {
     const selectDept = 'SELECT * FROM department'
     connection.query(selectDept, (err, res) => {
         if (err) throw (err)
@@ -124,31 +128,18 @@ function addRole() {
             connection.query(roleQuery, [answer.title, answer.salary, deptIdToSave], (err, res) => {
                 if (err) throw err;
                 console.log(res);
+                init();
             })
 
 
         })
-
-
+        
 
     })
-    //     const roleQuery = 'INSERT INTO role SET ?';
-    // connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
-    //     if (err) throw err;
-    // console.log(res);
-    // })
 
-    //     const nameRole = await inquirer.prompt(role);
-    // console.log(nameRole);
-    // const roleQuery = 'INSERT INTO role SET ?';
-    // connection.query(roleQuery, {title:nameRole.title}, (err, res) => {
-    //     if (err) throw err;
-    //  console.log(res);
-
-    // //  What is the name of the role and salary 
-    // })
 
 }
+
 
 // function getRole() {
 //     const getRoleQuery = 'SELECT title FROM role '
@@ -204,6 +195,7 @@ async function addEmployee() {
             connection.query(employeeQuery, [answer.first_name, answer.last_name, roleIdToSave], (err, res) => {
                 if (err) throw err;
                 console.log(res);
+                  init();
             })
 
 
@@ -211,7 +203,7 @@ async function addEmployee() {
 
 
     })
-
+  ;
 }
 
 
@@ -256,6 +248,7 @@ function viewDepartment() {
     connection.query(dptTableQuery, (err, res) => {
         if (err) throw (err);
         console.table(res);
+        init();
     })
 
 }
@@ -275,6 +268,7 @@ function viewEmployee() {
     connection.query(empTableQuery, (err, res) => {
         if (err) throw (err);
         console.table(res);
+        init();
     })
 
 }
@@ -309,6 +303,7 @@ function updateRole() {
                 }
         ]).then(function (answer) {
             console.log('This is the answer', answer);
+            
             
             //     var roleIdCompare;
             //     for (let i = 0; i < res.length; i++) {
