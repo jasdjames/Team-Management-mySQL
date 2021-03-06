@@ -45,11 +45,11 @@ async function init() {
         viewEmployee()
 
     }
-    // else if(mainQ.main === 'Update an employee role'){
+    else if(mainQ.main === 'Update an employee role'){
         
-    //     updateEmployee()
+        updateRole()
 
-    // }
+    }
 
     }
     catch (error) {
@@ -124,48 +124,7 @@ console.log(deptIdToSave);
 connection.query(roleQuery, [answer.title, answer.salary, deptIdToSave], (err, res) => {
     if (err) throw err;
 console.log(res);
-var roleNames = []
-for (let i = 0; i < res.length; i++) {
-    roleNames.push(res[i].title)
-   
-    
-}
-console.log(roleNames);
-inquirer.prompt([
-    {
-        type: 'input',
-        name: 'first_name',
-        message: 'What is the employee\'s first name?',
-    },
-    {
-        type: 'input',
-        name: 'last_name',
-        message: 'What is the employee\'s last name?',
-    },
-    {
-        type: 'list',
-        name: 'role',
-        message: 'What is the employee\'s role?',
-        choices: ['Lover', 'Fighter', 'Manager', 'HR Rep']
-
-    },
-
-    {
-        type: 'list',
-        name: 'manager',
-        message: 'Who is the employee\'s manager?',
-        choices: ['Jas James', 'Robyn Douglas', 'Kristin Bird', 'Retta Williams'
-
-        ]
-
-
-
-    },
-
-
-];)
-
-}) 
+})
 
 
 })
@@ -203,22 +162,85 @@ inquirer.prompt([
 async function addEmployee() {
     const viewEmQuery = 'SELECT * FROM role';
     connection.query(viewEmQuery, (err,res) => {
-
+    if (err) throw (err)
       console.log(res);   
-    })
+var roleNames = []
+for (let i = 0; i < res.length; i++) {
+    roleNames.push(res[i].title)
+    
+}
 
+console.log(roleNames);
+inquirer.prompt([
+    {
+        type: 'input',
+        name: 'first_name',
+        message: 'What is the employee\'s first name?',
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: 'What is the employee\'s last name?',
+    },
+    {
+        type: 'list',
+        name: 'roleName',
+        message: 'What role will this employee serve?',
+        choices: roleNames
+    }
+]).then( function (answer) {
+    console.log('This is the answer', answer);  
 
-    const employeeInfo = await inquirer.prompt(employee);
-console.log(employeeInfo);
-const employQuery = 'INSERT INTO employee (first_name,last_name) VALUES (?,?)';
-connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], (err, res) => {
-//    if ()
-    if (err) throw (err);
- console.table(res);
+    var roleIdToSave;
+    for (let i = 0; i < res.length; i++) {
+        if (answer.roleName === res[i].title){
+            roleIdToSave = res[i].id
+        }
+        
+    }
+
+console.log(roleIdToSave);
+    const employeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, 1)';
+connection.query(employeeQuery, [answer.first_name, answer.last_name, roleIdToSave], (err, res) => {
+    if (err) throw err;
+console.log(res);
 })
 
 
+})
+
+
+})
+
 }
+
+
+
+
+
+// )
+
+
+
+
+
+
+
+
+
+
+
+//     const employeeInfo = await inquirer.prompt(employee);
+// console.log(employeeInfo);
+// const employQuery = 'INSERT INTO employee (first_name,last_name) VALUES (?,?)';
+// connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], (err, res) => {
+// //    if ()
+//     if (err) throw (err);
+//  console.table(res);
+// })
+
+
+// }
 
 // function viewDepartment() {
 //     const dptTableQuery = 'Select * FROM department '
@@ -258,7 +280,9 @@ function viewEmployee() {
 }
 
 // function updateRole() {
-    
+
+// // What role would you like to give your employee 
+//  const updateRoleQuery = 'UPDATE role SET(col title?) WHERE (id =?) '     
 // }
 
 init();
