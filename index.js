@@ -280,6 +280,7 @@ function viewEmployee() {
 }
 
 function updateRole() {
+    console.table(viewEmployee());
     const updateEmQuery = 'SELECT * FROM role';
     connection.query(updateEmQuery, (err, res) => {
         if (err) throw (err)
@@ -292,7 +293,7 @@ function updateRole() {
 
 
         console.log(roleNames2);
-        console.table(viewEmployee());
+        
         inquirer.prompt([
             {
                 type: 'list',
