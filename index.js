@@ -230,8 +230,7 @@ function updateRole() {
     connection.query(updateEmQuery, (err, res) => {
         if (err) throw (err)
 
-        console.table('This is res1', res[1]);
-        console.table('This is RES 2', res[2]);
+       console.log(res);
         var roleNames2 = []
         var empNames2 = []
         for (let i = 0; i < res.length; i++) {
