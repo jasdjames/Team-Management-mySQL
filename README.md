@@ -14,7 +14,10 @@ This is project is a inquiry-based database generation and creation application.
 * [License](#license)
 
 ## Installation
-This project can be installed using the terminal command 'node index'.
+This project can be installed using the terminal command 'node index'. I have posted a video of how the application operates below as well as a link to the repository 
+[Video] (http://somup.com/creihxD96u)
+[Repo] (https://github.com/jasdjames/Team-Management-mySQL)
+
 
 
 ## Usage 

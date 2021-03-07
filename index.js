@@ -70,7 +70,7 @@ async function addDepartment() {
     const departmentQuery = 'INSERT INTO department SET ?';
     connection.query(departmentQuery, { name: nameDpt.name }, (err, res) => {
         if (err) throw err;
-        console.log(res);
+        console.log('Your department was created');
         init();
     })
 
@@ -82,13 +82,13 @@ async function addDepartment() {
     const selectDept = 'SELECT * FROM department'
     connection.query(selectDept, (err, res) => {
         if (err) throw (err)
-        console.log(res);
+        
         var deptNames = []
         for (let i = 0; i < res.length; i++) {
             deptNames.push(res[i].name)
 
         }
-        console.log(deptNames);
+        
         inquirer.prompt([
             {
                 type: 'input',
@@ -107,7 +107,7 @@ async function addDepartment() {
                 choices: deptNames
             }
         ]).then(function (answer) {
-            console.log('This is the answer', answer);
+            console.log('Here is your added role', answer);
 
             var deptIdToSave;
             for (let i = 0; i < res.length; i++) {
@@ -121,7 +121,7 @@ async function addDepartment() {
             const roleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
             connection.query(roleQuery, [answer.title, answer.salary, deptIdToSave], (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                // console.log(res);
                 init();
             })
 
@@ -140,7 +140,7 @@ async function addEmployee() {
     const viewEmQuery = 'SELECT * FROM role';
     connection.query(viewEmQuery, (err, res) => {
         if (err) throw (err)
-        console.log(res);
+        // console.log(res);
         // Tutor assisted with how this loop works to create the array 
         var roleNames = []
         for (let i = 0; i < res.length; i++) {
@@ -148,7 +148,7 @@ async function addEmployee() {
 
         }
 
-        console.log(roleNames);
+        // console.log(roleNames);
         inquirer.prompt([
             {
                 type: 'input',
@@ -167,7 +167,7 @@ async function addEmployee() {
                 choices: roleNames
             }
         ]).then(function (answer) {
-            console.log('This is the answer', answer);
+            console.log('Here is your employee', answer);
 
             var roleIdToSave;
             for (let i = 0; i < res.length; i++) {
@@ -177,11 +177,11 @@ async function addEmployee() {
 
             }
 
-            console.log(roleIdToSave);
+            // console.log(roleIdToSave);
             const employeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, 1)';
             connection.query(employeeQuery, [answer.first_names, answer.last_names, roleIdToSave], (err, res) => {
                 if (err) throw err;
-                console.log(res);
+                // console.log(res);
                   init();
             })
 
