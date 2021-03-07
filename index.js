@@ -12,6 +12,8 @@ const connection = mysql.createConnection({
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: 'team_db',
+    multipleStatements:true
+    
 });
 async function init() {
     try {
@@ -71,19 +73,11 @@ async function addDepartment() {
         console.log(res);
         init();
     })
-    // const deptArr = []
-    // const departmentIdQuery = 'SELECT * FROM department'
-    // connection.query(departmentIdQuery,(err,res) => {
-    // if (err) throw (err);
-    // deptArr.push(res)
-    // console.log ('This is your department',deptArr)
-    // // Could also write to fs .sql file?
 
-    // })
 
 }
 
-// Department ID - in params  - Get Department array - pass to user to select - Function to get roles 
+
  function addRole() {
     const selectDept = 'SELECT * FROM department'
     connection.query(selectDept, (err, res) => {
@@ -141,20 +135,13 @@ async function addDepartment() {
 }
 
 
-// function getRole() {
-//     const getRoleQuery = 'SELECT title FROM role '
-//     connection.query(getRoleQuery,(err, res) => {
-//         if (err) throw (err);
-//      console.log(res);
-//     })
-// }
 
-// Need Role for employee
 async function addEmployee() {
     const viewEmQuery = 'SELECT * FROM role';
     connection.query(viewEmQuery, (err, res) => {
         if (err) throw (err)
         console.log(res);
+        // Tutor assisted with how this loop works to create the array 
         var roleNames = []
         for (let i = 0; i < res.length; i++) {
             roleNames.push(res[i].title)
@@ -165,12 +152,12 @@ async function addEmployee() {
         inquirer.prompt([
             {
                 type: 'input',
-                name: 'first_name',
+                name: 'first_names',
                 message: 'What is the employee\'s first name?',
             },
             {
                 type: 'input',
-                name: 'last_name',
+                name: 'last_names',
                 message: 'What is the employee\'s last name?',
             },
             {
@@ -192,7 +179,7 @@ async function addEmployee() {
 
             console.log(roleIdToSave);
             const employeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, 1)';
-            connection.query(employeeQuery, [answer.first_name, answer.last_name, roleIdToSave], (err, res) => {
+            connection.query(employeeQuery, [answer.first_names, answer.last_names, roleIdToSave], (err, res) => {
                 if (err) throw err;
                 console.log(res);
                   init();
@@ -206,42 +193,6 @@ async function addEmployee() {
   ;
 }
 
-
-
-
-
-// )
-
-
-
-
-
-
-
-
-
-
-
-//     const employeeInfo = await inquirer.prompt(employee);
-// console.log(employeeInfo);
-// const employQuery = 'INSERT INTO employee (first_name,last_name) VALUES (?,?)';
-// connection.query(employQuery, [employeeInfo.first_name,employeeInfo.last_name], (err, res) => {
-// //    if ()
-//     if (err) throw (err);
-//  console.table(res);
-// })
-
-
-// }
-
-// function viewDepartment() {
-//     const dptTableQuery = 'Select * FROM department '
-//     connection.query(dptTableQuery, (err,res) => {
-//         if (err) throw (err);
-//         console.table(res);
-//     })
-
-// }
 
 function viewDepartment() {
     const dptTableQuery = 'Select * FROM department '
@@ -275,19 +226,27 @@ function viewEmployee() {
 
 function updateRole() {
     console.table(viewEmployee());
-    const updateEmQuery = 'SELECT * FROM role';
+    const updateEmQuery = 'SELECT CONCAT(employee.first_name,"", employee.last_name), title FROM employee inner JOIN role on employee.role_id = role.id; '
     connection.query(updateEmQuery, (err, res) => {
         if (err) throw (err)
-        console.log(res);
+
+        console.table('This is res1', res[1]);
+        console.table('This is RES 2', res[2]);
         var roleNames2 = []
+        var empNames2 = []
         for (let i = 0; i < res.length; i++) {
             roleNames2.push(res[i].title)
 
         }
+        for (let i = 0; i < res.length; i++) {
+            empNames2.push(res[i].first_name, res[i].last_name)
+            
+            
+        }
 
 
         console.log(roleNames2);
-        
+        console.log(empNames2);
         inquirer.prompt([
             {
                 type: 'list',
@@ -300,7 +259,16 @@ function updateRole() {
                     name: 'askId',
                     message: 'What is the employee\'s id number?',
 
+                },
+                {
+                    type: 'list',
+                    name: 'askName',
+                    message: 'Which employee?',
+                    choices:empNames2
+
                 }
+
+
         ]).then(function (answer) {
             console.log('This is the answer', answer);
             
