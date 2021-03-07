@@ -225,29 +225,29 @@ function viewEmployee() {
 }
 
 function updateRole() {
-    console.table(viewEmployee());
-    const updateEmQuery = 'SELECT CONCAT(employee.first_name,"", employee.last_name), title FROM employee inner JOIN role on employee.role_id = role.id; '
+    // console.table(viewEmployee());
+    const updateEmQuery = 'SELECT CONCAT(employee.first_name," ",employee.last_name) AS Full_name, title FROM employee inner JOIN role on employee.role_id = role.id; '
     connection.query(updateEmQuery, (err, res) => {
         if (err) throw (err)
 
-       console.log(res);
+       console.table(res);
         var roleNames2 = []
         var empNames2 = []
         for (let i = 0; i < res.length; i++) {
             roleNames2.push(res[i].title)
 
         }
+        
         for (let i = 0; i < res.length; i++) {
-            empNames2.push(res[i].first_name, res[i].last_name)
-            
-            
+          
+          empNames2.push(res[i].Full_name)
         }
-
 
         console.log(roleNames2);
         console.log(empNames2);
         inquirer.prompt([
             {
+
                 type: 'list',
                 name: 'roleName',
                 message: 'What role is the employee\'s new role?',
@@ -270,12 +270,12 @@ function updateRole() {
 
         ]).then(function (answer) {
             console.log('This is the answer', answer);
+            const updateNewQ = ''
             
             
             //     var roleIdCompare;
             //     for (let i = 0; i < res.length; i++) {
             //         if (answer.roleName2 === res[i].title){
-
             //         }
 
             //     }
